@@ -4,7 +4,7 @@ extension Notification.Name {
     static let databaseDidUpdate = Notification.Name("databaseDidUpdate")
 }
 
-protocol DatabaseServiceProtocol {
+protocol DatabaseProtocol {
     func addStudent(_ student: Student)
     func getStudents() -> [Student]
     func updateStudent(_ student: Student)
