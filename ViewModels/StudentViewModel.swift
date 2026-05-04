@@ -3,11 +3,11 @@ import Combine
 
 class StudentViewModel: ObservableObject {
     @Published var students: [Student] = []
-    private let db: DatabaseProtocol
+    private let database: DatabaseServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(db: DatabaseProtocol = InMemoryDatabaseManager.shared) {
-        self.db = db
+    init(database: DatabaseServiceProtocol) {
+        self.database = database
         loadStudents()
         
         NotificationCenter.default.publisher(for: .databaseDidUpdate)
@@ -18,18 +18,18 @@ class StudentViewModel: ObservableObject {
     }
     
     func loadStudents() {
-        students = db.getStudents()
+        students = database.getStudents()
     }
     
     func addStudent(name: String) {
         guard !name.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         let newStudent = Student(id: UUID(), name: name)
-        db.addStudent(newStudent)
+        database.addStudent(newStudent)
     }
     
     func deleteStudent(at offsets: IndexSet) {
         for index in offsets {
-            db.deleteStudent(id: students[index].id)
+            database.deleteStudent(id: students[index].id)
         }
     }
 }

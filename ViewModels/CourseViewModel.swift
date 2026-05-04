@@ -3,11 +3,11 @@ import Combine
 
 class CourseViewModel: ObservableObject {
     @Published var courses: [Course] = []
-    private let db: DatabaseProtocol
+    private let database: DatabaseServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(db: DatabaseProtocol = InMemoryDatabaseManager.shared) {
-        self.db = db
+    init(database: DatabaseServiceProtocol) {
+        self.database = database
         loadCourses()
         
         NotificationCenter.default.publisher(for: .databaseDidUpdate)
@@ -18,31 +18,31 @@ class CourseViewModel: ObservableObject {
     }
     
     func loadCourses() {
-        courses = db.getCourses()
+        courses = database.getCourses()
     }
     
     func addCourse(title: String) {
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         let newCourse = Course(id: UUID(), title: title, teacherId: nil, enrolledStudentIds: [])
-        db.addCourse(newCourse)
+        database.addCourse(newCourse)
     }
     
     func deleteCourse(at offsets: IndexSet) {
         for index in offsets {
-            db.deleteCourse(id: courses[index].id)
+            database.deleteCourse(id: courses[index].id)
         }
     }
     
     func assignTeacher(teacherId: UUID?, to courseId: UUID) {
-        db.assignTeacherToCourse(teacherId: teacherId, courseId: courseId)
+        database.assignTeacherToCourse(teacherId: teacherId, courseId: courseId)
     }
     
     func enrollStudent(studentId: UUID, in courseId: UUID) {
-        db.enrollStudentToCourse(studentId: studentId, courseId: courseId)
+        database.enrollStudentToCourse(studentId: studentId, courseId: courseId)
     }
     
     func unenrollStudent(studentId: UUID, from courseId: UUID) {
-        db.unenrollStudentFromCourse(studentId: studentId, courseId: courseId)
+        database.unenrollStudentFromCourse(studentId: studentId, courseId: courseId)
     }
     
     // MARK: - Helpers for Views

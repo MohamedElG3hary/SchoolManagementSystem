@@ -1,9 +1,18 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @StateObject private var studentVM = StudentViewModel()
-    @StateObject private var teacherVM = TeacherViewModel()
-    @StateObject private var courseVM = CourseViewModel()
+    let database: DatabaseServiceProtocol
+    
+    @StateObject private var studentVM: StudentViewModel
+    @StateObject private var teacherVM: TeacherViewModel
+    @StateObject private var courseVM: CourseViewModel
+    
+    init(database: DatabaseServiceProtocol) {
+        self.database = database
+        _studentVM = StateObject(wrappedValue: StudentViewModel(database: database))
+        _teacherVM = StateObject(wrappedValue: TeacherViewModel(database: database))
+        _courseVM = StateObject(wrappedValue: CourseViewModel(database: database))
+    }
     
     var body: some View {
         NavigationStack {

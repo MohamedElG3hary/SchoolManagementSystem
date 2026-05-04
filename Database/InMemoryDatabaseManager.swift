@@ -1,13 +1,11 @@
 import Foundation
 
-class InMemoryDatabaseManager: DatabaseProtocol {
-    static let shared = InMemoryDatabaseManager()
-    
+class InMemoryDatabaseManager: DatabaseServiceProtocol {
     private var students: [Student] = []
     private var teachers: [Teacher] = []
     private var courses: [Course] = []
     
-    private init() {
+    init() {
         setupMockData()
     }
     
