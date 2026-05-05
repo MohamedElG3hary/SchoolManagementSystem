@@ -6,8 +6,8 @@ class SupabaseDatabaseManager: DatabaseProtocol {
     
     // Initialize Supabase Client
     let client = SupabaseClient(
-        supabaseURL: URL(string: "https://YOUR_PROJECT_REF.supabase.co")!,
-        supabaseKey: "YOUR_ANON_KEY"
+        supabaseURL: URL(string: "https://ouvvfeqcewklyoidtiyc.supabase.co")!,
+6       supabaseKey: "sb_publishable_wf31RmrCEpIe-IfF5Tw9PQ_MSepW37s"
     )
     
     // Local cache for synchronous protocol conformance
